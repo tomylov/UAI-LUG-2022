@@ -1,3 +1,8 @@
+/* NOTA: Revisar el package.json.
+  Para ejecutar este archivo, es necesario utilizar un comando recientemente agregado a package.json
+  El comando es example:promise, por lo tanto deberia ejecutarse asi --> npm run example:promise.
+*/
+
 // Una promesa es un objeto que nos promete devolver un valor en algun momento.
 
 /* Ya vimos en clase que pueden tener 3 estados.
@@ -75,4 +80,23 @@ const start = async () => {
   }
 };
 
-start(); // Ejecuto la funcion "start".
+/**
+ * Ejemplo de la funcion start, utilizando la sintaxis de EcmaScript 5 
+  const start = () => {
+    const time = 2000;
+    waitFor(time)
+      .then(() => {
+        console.log(`Success: Luego de ${time} segundos se muestra este mensaje`);
+      })
+      .catch((err) => {
+        console.log("Error: ", err);
+      })
+      .finally(() => {
+        console.log(
+          "Finally: Mi promesa termino de correr, sea por Fulfilled (salio bien) o Rejected (salio mal), esta parte del codigo se ejecuta de todas formas"
+        );
+      });
+  };
+ */
+
+start(); // Ejecuto la funcion "start", la cual se encarga de ejecutar waitFor y hacer los console.logs correspondientes.
