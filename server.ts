@@ -3,11 +3,13 @@ dotenv.config();
 
 import express, { Express } from "express";
 import mongoose from "mongoose";
+import apiRoutes from "./routes/api";
 
 const app: Express = express();
 
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
+app.use("/api", apiRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is up and running at port ${process.env.PORT}`);
