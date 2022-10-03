@@ -2,9 +2,9 @@ import dotenv from "dotenv";
 // carga las variables de entorno para poder leerlas accediendo a process.env["variable"]
 dotenv.config();
 
+import api from "./src/routes"
 import express, { Express } from "express";
 import mongoose from "mongoose";
-import apiRoutes from "./routes/api";
 
 // inicializa la clase que nos permite crear el servidor.
 const app: Express = express();
@@ -14,7 +14,7 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
 // Agrega una ruta a la cual se accede a traves de localhost:PORT/api
-app.use("/api", apiRoutes);
+app.use("/api", api);
 
 // Levanta el server y escucha en el puerto que se guardo en la variable de entorno PORT
 app.listen(process.env.PORT, () => {
