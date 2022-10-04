@@ -1,11 +1,11 @@
 import { Schema, model } from "mongoose";
 
-const userSchema = new Schema({
-    name: {type: String, require: true},
-    email: {type: String, require: true},
-    age: {type: Number, require: true}
-})
+const blogSchema = new Schema({
+    author:{type: Schema.Types.ObjectId, ref: "User" },
+    comment: [{type: Schema.Types.ObjectId, ref:"Comment"}],
+    date:Date
+});
 
-const userModel = model("User", userSchema)
+const blogModel = model("Blog", blogSchema);
 
-export default userModel
+export default blogModel;
