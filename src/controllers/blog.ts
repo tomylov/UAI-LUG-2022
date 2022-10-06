@@ -12,9 +12,9 @@ const userController = {
     }, */
     add: async (req: Request, res: Response)  => {
         try {
-            const myUser = new blogModel({...req.body})
-            await myUser.save()
-            res.send(myUser)
+            const myBlog = new blogModel({...req.body});
+            await myBlog.save()
+            res.send(myBlog)
         } catch (error) {
             res.status(500).send(error)
         }

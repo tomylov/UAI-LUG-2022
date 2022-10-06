@@ -5,7 +5,7 @@ import comment from "./comment/comment";
 
 const router = Router()
 router.use("/users", users)
-router.use("/commet", comment)
-router.use("/users", blog)
+router.use("/blog", comment)
+router.use("/blog", blog)
 
 export default router
