@@ -2,14 +2,14 @@ import { Request, Response } from "express"
 import blogModel from "../models/blogs"
 
 const userController = {
-/*     get: async (req: Request, res: Response) => {
+    get: async (req: Request, res: Response) => {
         try {
             const allUsers = await blogModel.find()
             res.status(200).send(allUsers)
         } catch (error) {
             res.status(500).send(error)
         }  
-    }, */
+    },
     add: async (req: Request, res: Response)  => {
         try {
             const myBlog = new blogModel({...req.body});
