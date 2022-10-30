@@ -1,0 +1,27 @@
+import { Schema, model,Types,Document } from "mongoose";
+
+export interface Idetail{  //solo da tipado(estructura) a un esquema
+    product:Types.ObjectId,ref:"Product",
+    quantity: Number,
+    price:Number,
+}
+
+interface ICart {
+    detail: Idetail[]
+}
+
+const cartSchema = new Schema({
+    detail:[
+        {
+            product:{type: Schema.Types.ObjectId,ref:"Product"},
+            quantity:Number,
+            price:Number,            
+    }
+    ],
+    total:Number,
+
+});
+
+const cartModel = model<ICart>("Cart", cartSchema);
+
+export default cartModel;
