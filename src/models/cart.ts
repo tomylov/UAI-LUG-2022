@@ -2,8 +2,8 @@ import { Schema, model,Types,Document } from "mongoose";
 
 export interface Idetail{  //solo da tipado(estructura) a un esquema
     product:Types.ObjectId,ref:"Product",
-    quantity: Number,
-    price:Number,
+    quantity: number,
+    price:number,
 }
 
 interface ICart {
@@ -15,7 +15,7 @@ const cartSchema = new Schema({
         {
             product:{type: Schema.Types.ObjectId,ref:"Product"},
             quantity:Number,
-            price:Number,            
+            price:Number,
     }
     ],
     total:Number,
