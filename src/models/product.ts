@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const productSchema = new Schema({
-    name:{String, require:true},
+    name:{type: String, require:true},
     price:Number,
     stock:Number,
     provider:{type:Schema.Types.ObjectId,ref:"Provider"},    

@@ -1,11 +1,8 @@
 import { Router } from "express";
-import users from "./user/user";
-import blog from "./blogs/blog";
-import comment from "./comment/comment";
+import cart from "./carts/cart";
+
 
 const router = Router()
-router.use("/users", users)
-router.use("/blog", comment)
-router.use("/blog", blog)
+router.use("/cart", cart)
 
 export default router
