@@ -3,6 +3,6 @@ import cart from "./carts/cart";
 
 
 const router = Router()
-router.use("/cart", cart)
+router.use("/cart", cart);
 
 export default router

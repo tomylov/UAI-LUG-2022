@@ -20,16 +20,21 @@ getCart: async (req: Request, res: Response) => { //deberia estar
 
   postcarrito: async (req: Request, res: Response) => {
     try {
-      const cart = await cartModel.find();
+/*       const cart = await cartModel.find();
       if (cart.length) {
         var index = cart[0].detail.findIndex(i => i.product === ({...req.body.detail.product}));
         const stockdb:any = cart[0].detail.find(req.body.detail.product);
-        var cantProd:any = cart[0].detail.find(i => i.quantity ===({...req.body.detail.product}));
-        var suma:any=0;
-        suma = cantProd + req.body.detail.quantity;
         if (stockdb[0].stock >= req.body.detail.quantity) {
             if(cart[0].detail.includes(req.body.detail.product)){ //si existe que se sume sino que se agregue el nuevo articulo
               //cambiar el quantity, este despues va en el delete en la parte de que cuando se reduce no se borre
+              var cantProd:any = cart[0].detail.find(i => i.quantity ===({...req.body.detail.product}));
+              var suma:any=0;
+              suma = cantProd + req.body.detail.quantity;              
+              for (const obj of cart[0].detail) {
+                if (obj.product === req.body.detail.product) {
+                  obj.quantity = suma;              
+                  break;
+                }}
               await cart[0].save();
               return res.status(200).send();
             }else{
@@ -42,11 +47,16 @@ getCart: async (req: Request, res: Response) => { //deberia estar
         const carro = new cartModel({ ...req.body }); //si no se econtro ningun carrito crearlo
         await carro.save();
         return res.status(200).send();
-      }
+        } */
+        const cart = new cartModel({...req.body});
+        await cart.save();
+        res.send(cart);
+      
     } catch (error) {
       return res.status(500).send(error);
     }
   },
+
   deleteCart: async (req: Request, res: Response) => { //ya deberia estar
     try {
       const cart = await cartModel.find({});
