@@ -1,18 +1,21 @@
 import { Request, Response } from "express";
 import cartModel from "../models/cart";
 import productModel from "../models/product";
-import providerModel from "../models/provider";
 
 
 const cartController = {
 getCart: async (req: Request, res: Response) => { //deberia estar
     try {
-        const cart = await cartModel.find();
+/*         const cart = await cartModel.find();
         let num:number= 0 ;
         cart[0].detail.forEach((valor)=>{
             num += valor.quantity * valor.price;
         })
-        return res.status(200).send('el subtotal hasta el momento es de: '+ num);
+        return res.status(200).send('el subtotal hasta el momento es de: '+ num); */
+        const cart = await productModel.find();
+        const reqdata = req.body;
+        //const cantProd = cart[0].detail.find(i => i  == req.body.detail.productId);
+        res.status(200).send(cart);
     } catch (error) {
         return res.status(500).send(error);
     }
@@ -20,38 +23,47 @@ getCart: async (req: Request, res: Response) => { //deberia estar
 
   postcarrito: async (req: Request, res: Response) => {
     try {
-/*       const cart = await cartModel.find();
+      const cart = await cartModel.find();
+      const products = await productModel.find();
       if (cart.length) {
-        var index = cart[0].detail.findIndex(i => i.product === ({...req.body.detail.product}));
-        const stockdb:any = cart[0].detail.find(req.body.detail.product);
-        if (stockdb[0].stock >= req.body.detail.quantity) {
-            if(cart[0].detail.includes(req.body.detail.product)){ //si existe que se sume sino que se agregue el nuevo articulo
+        const stockdb:any = products.find((i: any) => i.productId === req.body.productId);
+        console.log("sorckdb:", stockdb);
+        if (stockdb.stock >= req.body.quantity) { //la cantidad que mando por body debe ser menor o igual a lo que tengo en stock
+          console.log("entro como la vale");
+          const cartDet:any = cart[0].detail.find((i: any) => i.productId === req.body.productId);
+          console.log(cartDet);
+            if(cartDet){ //si existe que se sume sino que se agregue el nuevo articulo
               //cambiar el quantity, este despues va en el delete en la parte de que cuando se reduce no se borre
-              var cantProd:any = cart[0].detail.find(i => i.quantity ===({...req.body.detail.product}));
-              var suma:any=0;
-              suma = cantProd + req.body.detail.quantity;              
-              for (const obj of cart[0].detail) {
-                if (obj.product === req.body.detail.product) {
-                  obj.quantity = suma;              
-                  break;
-                }}
-              await cart[0].save();
-              return res.status(200).send();
-            }else{
+              console.log("entro como la vale 2");                                      
+              const suma = cartDet.quantity + req.body.quantity;
+              console.log(suma);
+                const newBody ={
+                  productId:req.body.productId,
+                  quantity:suma,
+                  price:req.body.price
+                };
+                console.log("antes del splice",cart);
+                const index = cart[0].detail.findIndex(i => i.productId === req.body.productId);
+                console.log("INDEEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",index);
+                await cart[0].detail.splice(index,1,newBody);
+                console.log("later of the splice", cart[0].detail);
+                await cart[0].save();    
+              
+              return res.status(200).send("se agrego una nueva cantidad en el carrito");
+            }else{ //no encuentro el product id dentro del detalle por ende agrego uno nuevo
                 cart[0].detail.push({...req.body});
                 await cart[0].save();
-                return res.status(200).send();
+                return res.status(200).send("se creo el detalle");
             }
+        }else{ //sale ya que estoy mandando mas stock que el que tengo en la bd
+          return res.status(400).send("stock insuficiente");
         }
       } else {
         const carro = new cartModel({ ...req.body }); //si no se econtro ningun carrito crearlo
         await carro.save();
-        return res.status(200).send();
-        } */
-        const cart = new cartModel({...req.body});
-        await cart.save();
-        res.send(cart);
-      
+        return res.status(200).send("se creo el carrito con su detalle");
+        }
+
     } catch (error) {
       return res.status(500).send(error);
     }
@@ -60,7 +72,7 @@ getCart: async (req: Request, res: Response) => { //deberia estar
   deleteCart: async (req: Request, res: Response) => { //ya deberia estar
     try {
       const cart = await cartModel.find({});
-      var index = cart[0].detail.findIndex(i => i.product === ({...req.body.detail.product}));
+      var index = cart[0].detail.findIndex(i => i.productId === ({...req.body.detail.product}));
       var cantProd:any = cart[0].detail.find(i => i.quantity ===({...req.body.detail.product}));
       var resta:any=0; //si pongo number no me deja
       resta = cantProd - req.body.detail.quantity;
@@ -80,5 +92,6 @@ getCart: async (req: Request, res: Response) => { //deberia estar
   },
 
 }
+
 
 export default cartController

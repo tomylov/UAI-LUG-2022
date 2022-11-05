@@ -1,8 +1,9 @@
 import { Schema, model } from "mongoose";
 
 const providerSchema = new Schema({
-    name: {type: String, require: true},
-    adress: {type: String, require: true},
+    providerId:{type:Number,required:true,unique:true},  
+    name: {type: String, required: true},
+    adress: {type: String, required: true},
 });
 
 const providerModel = model("Provider", providerSchema);

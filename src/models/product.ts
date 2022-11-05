@@ -1,10 +1,11 @@
 import { Schema, model } from "mongoose";
 
 const productSchema = new Schema({
-    name:{type: String, require:true},
+    productId:{type: Number, required:true,unique:true},
+    name:{type: String, required:true},
     price:Number,
     stock:Number,
-    provider:{type:Schema.Types.ObjectId,ref:"Provider"},    
+    providerId:{type:Number,ref:"Provider"},
 })
 
 const productModel = model("Product", productSchema);
