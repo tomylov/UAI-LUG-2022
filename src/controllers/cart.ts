@@ -6,16 +6,15 @@ import productModel from "../models/product";
 const cartController = {
 getCart: async (req: Request, res: Response) => { //deberia estar
     try {
-/*         const cart = await cartModel.find();
+/*          const cart = await cartModel.find();
         let num:number= 0 ;
         cart[0].detail.forEach((valor)=>{
             num += valor.quantity * valor.price;
         })
-        return res.status(200).send('el subtotal hasta el momento es de: '+ num); */
-        const cart = await productModel.find();
-        const reqdata = req.body;
-        //const cantProd = cart[0].detail.find(i => i  == req.body.detail.productId);
-        res.status(200).send(cart);
+        cart[0].total=num;
+        cart[0].save(); */
+        const prod = await productModel.find();
+        return res.status(200).send('el subtotal hasta el momento es de: '+ prod); 
     } catch (error) {
         return res.status(500).send(error);
     }
@@ -82,7 +81,7 @@ getCart: async (req: Request, res: Response) => { //deberia estar
          cart[0].detail.splice(index,1);
         //await cart[0].save();
         console.log(cart[0].detail);
-        return res.status(200).send();
+        return res.status(200).send('producto eliminado con exito');
       }else{
         const newBody ={
           productId:req.body.productId,
@@ -92,7 +91,7 @@ getCart: async (req: Request, res: Response) => { //deberia estar
         cart[0].detail.splice(index,1,newBody);
         //await cart[0].save();
         console.log(cart[0].detail);
-        return res.status(200).send();
+        return res.status(200).send('cantidad extraida con exito');
       }}else{
         return res.status(404).send('id ingresado desconocido')
       }
