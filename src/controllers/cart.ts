@@ -71,19 +71,30 @@ getCart: async (req: Request, res: Response) => { //deberia estar
 
   deleteCart: async (req: Request, res: Response) => { //ya deberia estar
     try {
-      const cart = await cartModel.find({});
-      var index = cart[0].detail.findIndex(i => i.productId === ({...req.body.detail.product}));
-      var cantProd:any = cart[0].detail.find(i => i.quantity ===({...req.body.detail.product}));
-      var resta:any=0; //si pongo number no me deja
-      resta = cantProd - req.body.detail.quantity;
+      const cart = await cartModel.find();
+      const index = cart[0].detail.findIndex((i:any) => i.productId === req.body.productId); //busco el index del producto
+      console.log(index);
+      const cantProd:any = cart[0].detail.find((i: any)  => i.productId ===req.body.productId); //busco el producto
+      console.log(cantProd);
+      if(index>=0){ 
+      const resta = cantProd.quantity - req.body.quantity;
       if(resta<=0){
          cart[0].detail.splice(index,1);
-        await cart[0].save();
+        //await cart[0].save();
+        console.log(cart[0].detail);
         return res.status(200).send();
       }else{
-        cart[0].detail.splice(index,1,resta);
-        await cart[0].save();
+        const newBody ={
+          productId:req.body.productId,
+          quantity:resta,
+          price:req.body.price
+        };
+        cart[0].detail.splice(index,1,newBody);
+        //await cart[0].save();
+        console.log(cart[0].detail);
         return res.status(200).send();
+      }}else{
+        return res.status(404).send('id ingresado desconocido')
       }
 
     } catch (error) {
