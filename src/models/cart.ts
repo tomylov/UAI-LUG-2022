@@ -17,8 +17,8 @@ const cartSchema = new Schema({
     detail:[
         {
             productId:{type: Number,ref:"Product",required:true},
-            quantity:Number,
-            price:Number,
+            quantity:{type: Number,required:true},
+            price:{type: Number,required:true},
     }
     ],
     total:Number,

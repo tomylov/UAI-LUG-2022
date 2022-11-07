@@ -1,13 +1,21 @@
 import { Schema, model } from "mongoose";
 
+interface Iprod {
+    productId: number,
+    name:string,
+    price:number,
+    stock:number,
+    providerId:number    
+}
+
 const productSchema = new Schema({
     productId:{type: Number, required:true,unique:true},
     name:{type: String, required:true},
-    price:Number,
-    stock:Number,
-    providerId:{type:Number,ref:"Provider"},
+    price:{type: Number,required:true},
+    stock:{type: Number,required:true},
+    providerId:{type:Number,ref:"Provider", required:true},
 })
 
-const productModel = model("Product", productSchema);
+const productModel = model<Iprod>("Product", productSchema);
 
 export default productModel;
